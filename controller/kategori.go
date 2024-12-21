@@ -80,9 +80,15 @@ func DeleteKategori(c *gin.Context) {
 	var kategori structs.Kategori
 	id, _ := strconv.Atoi(c.Param("id"))
 	kategori.ID = id
-	err := repository.DeleteKategori(database.DbConnection, kategori)
+	_, err := repository.GetKategoriById(database.DbConnection, kategori)
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusNotFound, "Category with id "+c.Param("id")+" is not found")
+		return
+	} else {
+		err := repository.DeleteKategori(database.DbConnection, kategori)
+		if err != nil {
+			panic(err)
+		}
+		c.JSON(http.StatusOK, "Category with id "+c.Param("id")+" has been deleted successfully")
 	}
-	c.JSON(http.StatusOK, kategori)
 }

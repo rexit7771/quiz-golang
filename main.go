@@ -6,6 +6,7 @@ import (
 	"os"
 	"quiz-golang/controller"
 	"quiz-golang/database"
+	"quiz-golang/middlewares"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -45,6 +46,8 @@ func main() {
 	// database.UnmigrateDB(DB)
 
 	router := gin.Default()
+	router.POST("/api/register", controller.Register)
+	router.Use(middlewares.Auth())
 	router.GET("/api/categories", controller.GetAllKategori)
 	router.POST("/api/categories", controller.AddNewKategori)
 	router.GET("/api/categories/:id/books", controller.GetBukuByKategoriId)

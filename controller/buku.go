@@ -68,10 +68,12 @@ func DeleteBuku(c *gin.Context) {
 	var buku structs.Buku
 	id, _ := strconv.Atoi(c.Param("id"))
 	buku.ID = id
-	err := repository.DeleteBuku(database.DbConnection, buku)
+	_, err := repository.GetBukuById(database.DbConnection, buku)
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusNotFound, "Book with id "+c.Param("id")+" is not found")
+		return
+	} else {
+		repository.DeleteBuku(database.DbConnection, buku)
+		c.JSON(http.StatusOK, "buku with id "+c.Param("id")+" has been deleted successfully")
 	}
-	result := "buku with id " + c.Param("id") + " has been deleted successfully"
-	c.JSON(http.StatusOK, result)
 }
