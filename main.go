@@ -51,5 +51,10 @@ func main() {
 	router.GET("/api/categories/:id", controller.GetKategoriById)
 	router.DELETE("/api/categories/:id", controller.DeleteKategori)
 
+	router.GET("/api/books", controller.GetAllBuku)
+	router.POST("/api/books", controller.AddNewBuku)
+	router.GET("/api/books/:id", controller.GetBukuById)
+	router.DELETE("/api/books/:id", controller.DeleteBuku)
+
 	router.Run(":" + os.Getenv("PORT"))
 }

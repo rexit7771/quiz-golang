@@ -73,7 +73,7 @@ func AddNewKategori(c *gin.Context) {
 		panic(err)
 	}
 
-	c.JSON(http.StatusOK, newKategori)
+	c.JSON(http.StatusOK, "New Category has been added successfully")
 }
 
 func DeleteKategori(c *gin.Context) {
