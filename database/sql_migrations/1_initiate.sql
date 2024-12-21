@@ -2,7 +2,7 @@
 -- +migrate StatementBegin
 
 create table kategori(
-    id INT NOT NULL PRIMARY KEY,
+     id SERIAL PRIMARY KEY,
     name varchar(250),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by varchar(50),
@@ -11,7 +11,7 @@ create table kategori(
 );
 
 create table buku(
-    id INT NOT NULL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     title varchar(250),
     description varchar(250),
     image_url varchar(250),
@@ -29,7 +29,7 @@ create table buku(
 
 
 create table users(
-    id INT NOT NULL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     username varchar(50),
     password varchar(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -37,4 +37,13 @@ create table users(
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_by varchar(50)
 );
+-- +migrate StatementEnd
+
+-- +migrate Down
+-- +migrate StatementBegin
+
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS buku;
+DROP TABLE IF EXISTS kategori;
+
 -- +migrate StatementEnd

@@ -4,8 +4,10 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"quiz-golang/controller"
 	"quiz-golang/database"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -40,4 +42,14 @@ func main() {
 		panic(err)
 	}
 	database.DBMigrate(DB)
+	// database.UnmigrateDB(DB)
+
+	router := gin.Default()
+	router.GET("/api/categories", controller.GetAllKategori)
+	router.POST("/api/categories", controller.AddNewKategori)
+	router.GET("/api/categories/:id/books", controller.GetBukuByKategoriId)
+	router.GET("/api/categories/:id", controller.GetKategoriById)
+	router.DELETE("/api/categories/:id", controller.DeleteKategori)
+
+	router.Run(":" + os.Getenv("PORT"))
 }

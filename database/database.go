@@ -24,3 +24,16 @@ func DBMigrate(dbParam *sql.DB) {
 	DbConnection = dbParam
 	fmt.Println("Migration success, applied", n, "migrations!")
 }
+
+func UnmigrateDB(dbParam *sql.DB) {
+	migrations := &migrate.EmbedFileSystemMigrationSource{
+		FileSystem: dbMigrations,
+		Root:       "sql_migrations",
+	}
+	n, errs := migrate.Exec(dbParam, "postgres", migrations, migrate.Down)
+	if errs != nil {
+		panic(errs)
+	}
+	DbConnection = dbParam
+	fmt.Println("Unmigration success, rolled back", n, "migrations!")
+}
